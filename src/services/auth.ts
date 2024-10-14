@@ -2,42 +2,44 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ILoginRequest, ILoginResponse, IUser } from '@/models/user';
 import { useAuthStore } from '@/store/auth';
 import { apiClient } from '@/api';
-import { AxiosError } from 'axios';
 import { useNavigate } from '@tanstack/react-router';
+import type { AxiosError } from 'axios';
 
 // Login Mutation
 export const useLoginMutation = () => {
   const queryClient = useQueryClient();
+  const setAuthToken = useAuthStore((state) => state.setAuthToken);
 
-  return useMutation<ILoginResponse, unknown, ILoginRequest>({
+  return useMutation<ILoginResponse, AxiosError, ILoginRequest>({
     mutationKey: ['login'],
     mutationFn: async (credentials: ILoginRequest) => {
-      const { data } = await apiClient.post('auth/login', credentials);
+      const { data } = await apiClient.post<ILoginResponse>('auth/login', credentials);
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: ({ accessToken }) => {
       // Store the token in local storage and update Redux (or any state management)
-      localStorage.setItem('accessToken', data.accessToken);
-      queryClient.setQueryData(['accessToken'], data.accessToken);
+      localStorage.setItem('accessToken', accessToken);
+      queryClient.setQueryData(['accessToken'], accessToken);
+      setAuthToken(accessToken);
     },
     onError: (error) => {
-      console.error('Login error:', error);
+      console.error('Login error:', error.message);
     },
   });
 };
 
 // Get Me Query
 export const useGetMeQuery = () => {
-  const resetStore = useAuthStore((state) => state.resetStore);
   const setUser = useAuthStore((state) => state.setUser);
+  const resetStore = useAuthStore((state) => state.resetStore);
 
   const navigate = useNavigate();
 
-  return useQuery<IUser>({
+  return useQuery<IUser | undefined, AxiosError>({
     queryKey: ['getMe'],
     queryFn: async () => {
       try {
-        const { data } = await apiClient.get('auth/me');
+        const { data } = await apiClient.get<IUser>('auth/me');
         setUser(data);
         return data;
       } catch (error) {
@@ -47,7 +49,7 @@ export const useGetMeQuery = () => {
           // Token expired, reset the store and redirect to login
           resetStore(); // Clear token in Redux or state
           localStorage.removeItem('accessToken'); // Remove token from localStorage
-          await navigate({ to: 'login' }); // Redirect to login page
+          await navigate({ to: '/login' }); // Redirect to login page
         }
       }
     },

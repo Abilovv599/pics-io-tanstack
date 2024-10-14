@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import type { IUser } from '@/models/user.ts';
 import { devtools } from 'zustand/middleware';
+import type { IUser } from '@/models/user.ts';
 
 type AuthState = {
   user: IUser | null;
@@ -14,7 +14,11 @@ type AuthActions = {
   resetStore: () => void;
 };
 
-const initialState: AuthState = { user: null, accessToken: null, refreshToken: null };
+const initialState: AuthState = {
+  user: null,
+  accessToken: localStorage.getItem('accessToken') || null,
+  refreshToken: null,
+};
 
 const useAuthStore = create<AuthState & AuthActions>()(
   devtools(
