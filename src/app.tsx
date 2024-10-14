@@ -9,12 +9,12 @@ function App() {
   const { defaultAlgorithm, darkAlgorithm } = theme;
 
   return (
-      <ConfigProvider theme={{ algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm }}>
-        <AntdApp className={`${isDarkMode ? 'bg-black' : null}`}>
-          <RouterProvider router={router} />
-          <FloatButton icon={isDarkMode ? <MoonOutlined /> : <SunOutlined />} onClick={toggle} />
-        </AntdApp>
-      </ConfigProvider>
+    <ConfigProvider theme={{ algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm }}>
+      <AntdApp className={`${isDarkMode ? 'bg-black' : null}`}>
+        <RouterProvider router={router} />
+        <FloatButton icon={isDarkMode ? <MoonOutlined /> : <SunOutlined />} onClick={toggle} />
+      </AntdApp>
+    </ConfigProvider>
   );
 }
 

@@ -5,7 +5,7 @@ const rootRoute = createRootRoute({
   component: () => (
     <>
       <Outlet />
-      <TanStackRouterDevtools position='top-right' />
+      <TanStackRouterDevtools position="top-right" />
     </>
   ),
 });
