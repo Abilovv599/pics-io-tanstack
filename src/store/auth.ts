@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { IUser } from '@/models/user.ts';
-import { devtools, persist } from 'zustand/middleware';
+import { devtools } from 'zustand/middleware';
 
 type AuthState = {
   user: IUser | null;
@@ -18,17 +18,15 @@ const initialState: AuthState = { user: null, accessToken: null, refreshToken: n
 
 const useAuthStore = create<AuthState & AuthActions>()(
   devtools(
-    persist(
-      (set) => ({
-        ...initialState,
-        setAuthToken: (token) => set((state) => ({ ...state, accessToken: token })),
-        setUser: (user) => set((state) => ({ ...state, user })),
-        resetStore: () => set(initialState),
-      }),
-      {
-        name: 'auth', // name of the item in the storage (must be unique)
-      },
-    ),
+    (set) => ({
+      ...initialState,
+      setAuthToken: (token) => set((state) => ({ ...state, accessToken: token })),
+      setUser: (user) => set((state) => ({ ...state, user })),
+      resetStore: () => set(initialState),
+    }),
+    {
+      name: 'auth', // name of the item in the storage (must be unique)
+    },
   ),
 );
 
