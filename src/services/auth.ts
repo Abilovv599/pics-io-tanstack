@@ -10,17 +10,20 @@ export const useLoginMutation = () => {
   const queryClient = useQueryClient();
   const setAuthToken = useAuthStore((state) => state.setAuthToken);
 
+  const navigate = useNavigate();
+
   return useMutation<ILoginResponse, AxiosError, ILoginRequest>({
     mutationKey: ['login'],
     mutationFn: async (credentials: ILoginRequest) => {
       const { data } = await apiClient.post<ILoginResponse>('auth/login', credentials);
       return data;
     },
-    onSuccess: ({ accessToken }) => {
+    onSuccess: async ({ accessToken }) => {
       // Store the token in local storage and update Redux (or any state management)
       localStorage.setItem('accessToken', accessToken);
       queryClient.setQueryData(['accessToken'], accessToken);
       setAuthToken(accessToken);
+      await navigate({ to: '/' });
     },
     onError: (error) => {
       console.error('Login error:', error.message);

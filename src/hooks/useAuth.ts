@@ -12,7 +12,7 @@ export const useAuth = () => {
   async function logout() {
     localStorage.removeItem('accessToken');
     resetStore();
-    await navigate({ to: 'login' });
+    await navigate({ to: '/login' });
   }
 
   return { isAuthenticated, accessToken, user, logout };

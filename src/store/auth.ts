@@ -21,17 +21,12 @@ const initialState: AuthState = {
 };
 
 const useAuthStore = create<AuthState & AuthActions>()(
-  devtools(
-    (set) => ({
-      ...initialState,
-      setAuthToken: (token) => set((state) => ({ ...state, accessToken: token })),
-      setUser: (user) => set((state) => ({ ...state, user })),
-      resetStore: () => set(initialState),
-    }),
-    {
-      name: 'auth', // name of the item in the storage (must be unique)
-    },
-  ),
+  devtools((set) => ({
+    ...initialState,
+    setAuthToken: (token) => set((state) => ({ ...state, accessToken: token })),
+    setUser: (user) => set((state) => ({ ...state, user })),
+    resetStore: () => set(initialState),
+  })),
 );
 
 export { useAuthStore };

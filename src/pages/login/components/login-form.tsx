@@ -1,6 +1,5 @@
 import { Button, Form, Input } from 'antd';
 import type { FormProps } from 'antd';
-import { useNavigate } from '@tanstack/react-router';
 import { useLoginMutation } from '@/services/auth';
 
 type FieldType = {
@@ -10,12 +9,10 @@ type FieldType = {
 
 function LoginForm() {
   const { isPending, mutateAsync: login } = useLoginMutation();
-  const navigate = useNavigate();
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     try {
       await login(values);
-      await navigate({ to: '/' });
     } catch (error) {
       console.error(error);
     }
