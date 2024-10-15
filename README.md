@@ -1,4 +1,4 @@
-# React + TypeScript + Vite + Redux Toolkit Query
+# React + TypeScript + Vite + Zustand + Tanstack
 
 This app created using [dummyjson](https://dummyjson.com/docs) mock api.
 
