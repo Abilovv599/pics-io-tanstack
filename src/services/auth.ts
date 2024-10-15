@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ILoginRequest, ILoginResponse, IUser } from '@/models/user';
 import { useAuthStore } from '@/store/auth';
-import { apiClient } from '@/api';
+import { apiClient } from '@/lib/axios';
 import { useNavigate } from '@tanstack/react-router';
 import type { AxiosError } from 'axios';
 

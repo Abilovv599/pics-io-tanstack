@@ -1,4 +1,4 @@
-import { apiClient } from '@/api';
+import { apiClient } from '@/lib/axios';
 import type { IComment, ICommentList } from '@/models/comment';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';

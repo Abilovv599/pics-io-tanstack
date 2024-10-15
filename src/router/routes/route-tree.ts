@@ -1,4 +1,4 @@
-import { rootRoute } from '@/router/routes/index.tsx';
+import { rootRoute } from '@/router/routes';
 import { notFoundRoute } from '@/router/routes/static/not-found.ts';
 import { baseLayoutRoute } from '@/router/routes/private/_layout.tsx';
 import { authLayoutRoute } from '@/router/routes/auth/_layout.ts';
