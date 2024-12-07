@@ -1,5 +1,5 @@
 import type { AxiosError, AxiosInstance } from 'axios';
-import type { HttpBodyOrParams, HttpResponse, IHttpClient } from './interface';
+import type { HttpBodyOrParams, HttpResponse, IHttpClient } from './types';
 import axios from 'axios';
 
 export class HttpClient implements IHttpClient {

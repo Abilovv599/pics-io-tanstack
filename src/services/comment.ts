@@ -1,4 +1,4 @@
-import { apiClient } from '@/lib/axios';
+import { HttpClient } from '@/api/http-client';
 import type { IComment, ICommentList } from '@/models/comment';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
@@ -8,7 +8,7 @@ export const useGetCommentsQuery = () => {
   return useQuery<ICommentList>({
     queryKey: ['comments'],
     queryFn: async () => {
-      const { data } = await apiClient.get<ICommentList>('/comments');
+      const { data } = await HttpClient.getInstance().get<ICommentList>('/comments');
       return data;
     },
   });
@@ -19,7 +19,7 @@ export const useGetCommentByIdQuery = (id: number) => {
   return useQuery<IComment>({
     queryKey: ['comment', id],
     queryFn: async () => {
-      const { data } = await apiClient.get<IComment>(`/comments/${id}`);
+      const { data } = await HttpClient.getInstance().get<IComment>(`/comments/${id}`);
       return data;
     },
     enabled: !!id, // only run query if id exists
@@ -32,7 +32,7 @@ export const usePostCommentMutation = () => {
 
   return useMutation<IComment, AxiosError, { body: string; postId: number; userId: number }>({
     mutationFn: async (newComment) => {
-      const { data } = await apiClient.post<IComment>('/comments/add', newComment);
+      const { data } = await HttpClient.getInstance().post<IComment>('/comments/add', newComment);
       return data;
     },
     onSuccess: async () => {
@@ -48,7 +48,7 @@ export const useEditCommentMutation = () => {
 
   return useMutation<IComment, AxiosError, Partial<IComment> & Pick<IComment, 'id'>>({
     mutationFn: async ({ id, ...patch }) => {
-      const { data } = await apiClient.patch<IComment>(`/comments/${id}`, patch);
+      const { data } = await HttpClient.getInstance().patch<IComment>(`/comments/${id}`, patch);
       return data;
     },
     onSuccess: async () => {
@@ -64,9 +64,9 @@ export const useDeleteCommentMutation = () => {
 
   return useMutation<IComment & { isDeleted: true; deletedOn: string }, AxiosError, number>({
     mutationFn: async (id) => {
-      const { data } = await apiClient.delete<IComment & { isDeleted: true; deletedOn: string }>(
-        `/comments/${id}`,
-      );
+      const { data } = await HttpClient.getInstance().delete<
+        IComment & { isDeleted: true; deletedOn: string }
+      >(`/comments/${id}`);
       return data;
     },
     onSuccess: async () => {

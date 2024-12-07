@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/auth';
 import { HttpClient } from '@/api/http-client';
 import { useNavigate } from '@tanstack/react-router';
 import type { AxiosError } from 'axios';
-import type { HttpBodyOrParams } from '@/api/interface';
+import type { HttpBodyOrParams } from '@/api/types';
 
 // Login Mutation
 export const useLoginMutation = () => {
