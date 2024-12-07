@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ILoginRequest, ILoginResponse, IUser } from '@/models/user';
 import { useAuthStore } from '@/store/auth';
-import { apiClient } from '@/lib/axios';
+import { HttpClient } from '@/api/http-client';
 import { useNavigate } from '@tanstack/react-router';
 import type { AxiosError } from 'axios';
+import type { HttpBodyOrParams } from '@/api/interface';
 
 // Login Mutation
 export const useLoginMutation = () => {
@@ -12,10 +13,13 @@ export const useLoginMutation = () => {
 
   const navigate = useNavigate();
 
-  return useMutation<ILoginResponse, AxiosError, ILoginRequest>({
+  return useMutation<ILoginResponse, AxiosError, HttpBodyOrParams<ILoginRequest>>({
     mutationKey: ['login'],
-    mutationFn: async (credentials: ILoginRequest) => {
-      const { data } = await apiClient.post<ILoginResponse>('auth/login', credentials);
+    mutationFn: async (credentials) => {
+      const { data } = await HttpClient.getInstance().post<ILoginResponse>(
+        'auth/login',
+        credentials,
+      );
       return data;
     },
     onSuccess: async ({ accessToken }) => {
@@ -42,14 +46,14 @@ export const useGetMeQuery = () => {
     queryKey: ['getMe'],
     queryFn: async () => {
       try {
-        const { data } = await apiClient.get<IUser>('auth/me');
+        const { data } = await HttpClient.getInstance().get<IUser>('auth/me');
         setUser(data);
         return data;
       } catch (error) {
         const { status } = error as AxiosError;
         // Handle error, check if the error is a 401 Unauthorized
         if (status === 401) {
-          // Token expired, reset the store and redirect to login
+          // Token expired, reset the store and redirect to log in
           resetStore(); // Clear token in Redux or state
           localStorage.removeItem('accessToken'); // Remove token from localStorage
           await navigate({ to: '/login' }); // Redirect to login page
