@@ -12,7 +12,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "**/*": "yarn format",
+    "./src/*": "yarn format",
     "./src/**/*.{js,jsx,ts,tsx}": "yarn lint"
   },
   "dependencies": {
