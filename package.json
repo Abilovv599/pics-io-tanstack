@@ -12,7 +12,8 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*": "yarn format",
+    "./src/**/*.{js,jsx,ts,tsx}": "yarn lint"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.59.8",
