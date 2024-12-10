@@ -2,11 +2,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { Button, message, Popconfirm, type PopconfirmProps } from 'antd';
 import { useDeleteCommentMutation } from '@/modules/comments/hooks/use-comment-mutations';
 
-interface IDeleteCommentProps {
-  id: number;
-}
-
-function DeleteComment({ id }: IDeleteCommentProps) {
+function DeleteComment({ id }: { id: number }) {
   const { isPending, mutateAsync: deleteComment } = useDeleteCommentMutation();
 
   const confirm: PopconfirmProps['onConfirm'] = async () => {

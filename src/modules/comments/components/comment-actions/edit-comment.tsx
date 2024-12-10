@@ -5,11 +5,7 @@ import { Button, Input, message, Modal } from 'antd';
 
 import { useEditCommentMutation } from '@/modules/comments/hooks/use-comment-mutations';
 
-interface IEditCommentProps {
-  id: number;
-}
-
-function EditComment({ id }: IEditCommentProps) {
+function EditComment({ id }: { id: number }) {
   const [open, setOpen] = useState(false);
   const [commentText, setCommentText] = useState('');
 
