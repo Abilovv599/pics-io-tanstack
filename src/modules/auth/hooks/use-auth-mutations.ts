@@ -3,7 +3,7 @@ import { useTokenStore } from '@/store/token';
 import { useNavigate } from 'react-router';
 import { AuthService } from '@/modules/auth/services/auth';
 import type { HttpBodyOrParams } from '@/lib/http-client';
-import type { ILoginRequest, ILoginResponse } from '@/app/models/user';
+import type { ILoginRequest, ILoginResponse } from '@/models/user';
 import type { AxiosError } from 'axios';
 
 export function useLoginMutation() {

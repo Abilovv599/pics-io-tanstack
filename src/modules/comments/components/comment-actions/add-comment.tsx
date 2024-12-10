@@ -1,4 +1,4 @@
-import { Button, Flex, Form, FormProps, Input, message } from 'antd';
+import { Button, Flex, Form, Input, message, type FormProps } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { usePostCommentMutation } from '@/modules/comments/hooks/use-comment-mutations';
 import { useGetUserQuery } from '@/modules/auth/hooks/use-auth-queries';

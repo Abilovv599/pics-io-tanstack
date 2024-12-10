@@ -1,5 +1,5 @@
 import { DeleteOutlined } from '@ant-design/icons';
-import { Button, message, Popconfirm, PopconfirmProps } from 'antd';
+import { Button, message, Popconfirm, type PopconfirmProps } from 'antd';
 import { useDeleteCommentMutation } from '@/modules/comments/hooks/use-comment-mutations';
 
 interface IDeleteCommentProps {

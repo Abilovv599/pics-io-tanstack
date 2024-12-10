@@ -1,6 +1,6 @@
 import { Layout, Spin } from 'antd';
-import { Sidebar } from '@/app/layouts/base/components/sidebar';
-import { Content } from '@/app/layouts/base/components/content';
+import { Sidebar } from '@/modules/dashboard/layouts/base/components/sidebar';
+import { Content } from '@/modules/dashboard/layouts/base/components/content';
 import { useGetUserQuery } from '@/modules/auth/hooks/use-auth-queries';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Outlet } from 'react-router';

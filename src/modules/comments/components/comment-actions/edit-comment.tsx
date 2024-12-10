@@ -1,6 +1,8 @@
+import { useState } from 'react';
+
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Input, message, Modal } from 'antd';
-import { useState } from 'react';
+
 import { useEditCommentMutation } from '@/modules/comments/hooks/use-comment-mutations';
 
 interface IEditCommentProps {

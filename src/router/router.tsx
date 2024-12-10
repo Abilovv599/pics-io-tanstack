@@ -1,14 +1,17 @@
 import { BrowserRouter, Route, Routes } from 'react-router';
 
-import { AuthLayout } from '@/app/layouts/auth';
-import { BaseLayout } from '@/app/layouts/base';
 import { useAuth } from '@/modules/auth/hooks/use-auth';
+import { GuardedRoute } from './guarded-route';
+
+import { AuthLayout } from '@/modules/auth/layouts/auth';
 import { LoginPage } from '@/modules/auth/pages/login';
+
+import { BaseLayout } from '@/modules/dashboard/layouts/base/layout';
 import { CommentPage } from '@/modules/comments/pages/comment';
 import { CommentsPage } from '@/modules/comments/pages/comments';
-import { HomePage } from '@/modules/home/pages/home';
+import { HomePage } from '@/modules/dashboard/pages/home';
+
 import { NotFound } from '@/pages/not-found';
-import { GuardedRoute } from './guarded-route';
 
 export function AppRouter() {
   const { isAuthenticated } = useAuth();

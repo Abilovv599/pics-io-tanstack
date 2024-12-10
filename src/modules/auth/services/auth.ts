@@ -1,4 +1,4 @@
-import { ILoginRequest, ILoginResponse, IUser } from '@/app/models/user';
+import { ILoginRequest, ILoginResponse, IUser } from '@/models/user';
 import { HttpClient, type HttpBodyOrParams } from '@/lib/http-client';
 
 interface IAuthService {

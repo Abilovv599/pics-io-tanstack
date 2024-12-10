@@ -1,7 +1,7 @@
-import { useAuth } from '@/modules/auth/hooks/use-auth';
+import { useGetUserQuery } from '@/modules/auth/hooks/use-auth-queries';
 
 function ProfilePage() {
-  const { user } = useAuth();
+  const { data: user } = useGetUserQuery();
   return (
     <div>
       {user
