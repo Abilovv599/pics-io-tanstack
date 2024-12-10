@@ -1,6 +1,6 @@
-import { useTokenStore } from '@/store/token';
 import type { AxiosError, AxiosInstance } from 'axios';
 import axios from 'axios';
+import { useTokenStore } from '@/store/token';
 
 export type HttpBodyOrParams<T = Record<string, unknown>> = T & Record<string, unknown>;
 
@@ -35,8 +35,7 @@ export class HttpClient implements IHttpClient {
       (error: AxiosError) => {
         // Handle global errors (e.g., token expiration)
         if (error.response?.status === 401 || error.response?.status === 500) {
-          localStorage.removeItem('accessToken');
-          window.location.href = '/auth/login'; // Redirect on 401
+          useTokenStore.getState().resetStore();
         }
         console.error('API Error:', error.response?.data || error.message);
         return Promise.reject(error);
