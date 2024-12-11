@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { Navigate, useLocation, useSearchParams } from 'react-router';
-import { getRedirectPath } from './utils/get-redirect-path';
+import { Navigate } from 'react-router';
+import { useGetRedirectPath } from './hooks/use-get-redirect-path';
 
 interface IGuardedRoute {
   isAllowed: boolean;
@@ -9,12 +9,8 @@ interface IGuardedRoute {
 }
 
 export function GuardedRoute({ isAllowed, redirectPath, children }: IGuardedRoute) {
-  const [searchParams] = useSearchParams();
-  const location = useLocation();
-
+  const redirectFullPath = useGetRedirectPath(redirectPath);
   if (!isAllowed) {
-    const redirectFullPath = getRedirectPath(location, redirectPath, searchParams);
-
     return <Navigate to={redirectFullPath} replace />;
   }
 

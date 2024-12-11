@@ -1,14 +1,16 @@
-import type { useLocation } from 'react-router';
+import { useSearchParams } from 'react-router';
 
-export function getRedirectPath(
-  location: ReturnType<typeof useLocation>,
-  redirectPath: string,
-  searchParams: URLSearchParams,
-) {
+export function useGetRedirectPath(redirectPath: string) {
+  const [searchParams] = useSearchParams();
+
   // Check if the `redirect` query parameter already exists
   const existingRedirectPath = searchParams.get('redirect');
   if (existingRedirectPath) {
     return existingRedirectPath;
+  }
+
+  if (location.pathname === redirectPath) {
+    return `${redirectPath}${location.search}`;
   }
 
   // Construct the redirect path dynamically
@@ -16,6 +18,7 @@ export function getRedirectPath(
     // location.search is for different search params
     redirect: `${location.pathname}${location.search || ''}`,
   }).toString();
+
   const redirectFullPath = `${redirectPath}?${redirectParam}`;
 
   return redirectFullPath;
