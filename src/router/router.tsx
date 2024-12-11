@@ -22,7 +22,7 @@ export function AppRouter() {
         <Route
           path="/auth"
           element={
-            <GuardedRoute isAllowed={!isAuthenticated()} redirectPath="/">
+            <GuardedRoute isAllowed={!isAuthenticated} redirectPath="/">
               <AuthLayout />
             </GuardedRoute>
           }
@@ -34,7 +34,7 @@ export function AppRouter() {
         <Route
           path="/"
           element={
-            <GuardedRoute isAllowed={isAuthenticated()} redirectPath="/auth/login">
+            <GuardedRoute isAllowed={isAuthenticated} redirectPath="/auth/login">
               <BaseLayout />
             </GuardedRoute>
           }
