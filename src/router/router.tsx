@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { useAuth } from '@/modules/auth/hooks/use-auth';
 import { GuardedRoute } from './guarded-route';
@@ -16,37 +16,35 @@ import { NotFound } from '@/pages/not-found';
 export function AppRouter() {
   const { isAuthenticated } = useAuth();
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Non Auth only! Routes */}
-        <Route
-          path="/auth"
-          element={
-            <GuardedRoute isAllowed={!isAuthenticated} redirectPath="/">
-              <AuthLayout />
-            </GuardedRoute>
-          }
-        >
-          <Route path="login" element={<LoginPage />} />
-        </Route>
+    <Routes>
+      {/* Non Auth only! Routes */}
+      <Route
+        path="/auth"
+        element={
+          <GuardedRoute isAllowed={!isAuthenticated} redirectPath="/">
+            <AuthLayout />
+          </GuardedRoute>
+        }
+      >
+        <Route path="login" element={<LoginPage />} />
+      </Route>
 
-        {/* Private Routes */}
-        <Route
-          path="/"
-          element={
-            <GuardedRoute isAllowed={isAuthenticated} redirectPath="/auth/login">
-              <BaseLayout />
-            </GuardedRoute>
-          }
-        >
-          <Route index element={<HomePage />} />
-          <Route path="comments" element={<CommentsPage />} />
-          <Route path="comments/:id" element={<CommentPage />} />
-        </Route>
+      {/* Private Routes */}
+      <Route
+        path="/"
+        element={
+          <GuardedRoute isAllowed={isAuthenticated} redirectPath="/auth/login">
+            <BaseLayout />
+          </GuardedRoute>
+        }
+      >
+        <Route index element={<HomePage />} />
+        <Route path="comments" element={<CommentsPage />} />
+        <Route path="comments/:id" element={<CommentPage />} />
+      </Route>
 
-        {/* Fallback for Undefined Routes */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+      {/* Fallback for Undefined Routes */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }

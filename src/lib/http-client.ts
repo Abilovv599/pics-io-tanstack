@@ -55,16 +55,11 @@ export class HttpClient implements IHttpClient {
     url: string,
     bodyOrParams?: HttpBodyOrParams,
   ) {
-    try {
-      const response = await this.client[method]<T>(
-        url,
-        method === 'get' || method === 'delete' ? { params: bodyOrParams } : bodyOrParams,
-      );
-      return response.data;
-    } catch (error) {
-      console.error('API Request Error:', error);
-      throw error;
-    }
+    const response = await this.client[method]<T>(
+      url,
+      method === 'get' || method === 'delete' ? { params: bodyOrParams } : bodyOrParams,
+    );
+    return response.data;
   }
 
   // Public methods for each HTTP method type
