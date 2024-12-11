@@ -5,13 +5,7 @@ import { useParams } from 'react-router';
 
 function CommentPage() {
   const { id } = useParams();
-  const {
-    data: comment,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetCommentByIdQuery(Number(id));
+  const { data: comment, isLoading, isSuccess, isError, error } = useGetCommentByIdQuery(Number(id));
 
   if (isLoading) {
     return (

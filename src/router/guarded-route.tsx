@@ -1,29 +1,19 @@
 import type { ReactNode } from 'react';
-import { Navigate, useSearchParams } from 'react-router';
+import { Navigate, useLocation, useSearchParams } from 'react-router';
+import { getRedirectPath } from './utils/get-redirect-path';
 
-export function GuardedRoute({
-  isAllowed,
-  redirectPath,
-  children,
-}: {
+interface IGuardedRoute {
   isAllowed: boolean;
   redirectPath: string;
   children: ReactNode;
-}) {
-  const [searchParams] = useSearchParams();
-  if (!isAllowed) {
-    // Check if the `redirect` query parameter already exists
-    const existingRedirectPath = searchParams.get('redirect');
-    if (existingRedirectPath) {
-      return <Navigate to={existingRedirectPath} replace />;
-    }
+}
 
-    // Construct the redirect path dynamically
-    const redirectParam = new URLSearchParams({
-      // location.search is for different search params
-      redirect: `${location.pathname}${location.search || ''}`,
-    }).toString();
-    const redirectFullPath = `${redirectPath}?${redirectParam}`;
+export function GuardedRoute({ isAllowed, redirectPath, children }: IGuardedRoute) {
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+
+  if (!isAllowed) {
+    const redirectFullPath = getRedirectPath(location, redirectPath, searchParams);
 
     return <Navigate to={redirectFullPath} replace />;
   }

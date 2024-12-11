@@ -6,9 +6,7 @@ interface ICommentService {
   getComments(): Promise<ICommentList>;
   getCommentById(id: number): Promise<IComment>;
   postComment(newComment: { body: string; postId: number; userId: number }): Promise<IComment>;
-  editComment(
-    credentials: HttpBodyOrParams<Partial<IComment> & Pick<IComment, 'id'>>,
-  ): Promise<IComment>;
+  editComment(credentials: HttpBodyOrParams<Partial<IComment> & Pick<IComment, 'id'>>): Promise<IComment>;
   deleteComment(id: number): Promise<IComment & { isDeleted: true; deletedOn: string }>;
 }
 
@@ -36,10 +34,7 @@ export class CommentService implements ICommentService {
     return await this.httpClient.post<IComment>(`/${this.basePath}/add`, newComment);
   }
 
-  public async editComment({
-    id,
-    ...patch
-  }: HttpBodyOrParams<Partial<IComment> & Pick<IComment, 'id'>>) {
+  public async editComment({ id, ...patch }: HttpBodyOrParams<Partial<IComment> & Pick<IComment, 'id'>>) {
     return await this.httpClient.patch<IComment>(`/${this.basePath}/${id}`, patch);
   }
 
