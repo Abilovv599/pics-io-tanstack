@@ -1,4 +1,4 @@
-import { useLocalStorage, useMediaQuery } from 'usehooks-ts';
+import { useIsMounted, useIsomorphicLayoutEffect, useLocalStorage, useMediaQuery } from 'usehooks-ts';
 
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)';
 const LOCAL_STORAGE_KEY = 'usehooks-ts-dark-mode';
@@ -30,13 +30,14 @@ export function useDarkMode(options: DarkModeOptions = {}): DarkModeReturn {
     { initializeWithValue },
   );
 
-  // FIX: https://github.com/juliencrn/usehooks-ts/issues/512
+  // FIX: https://github.com/juliencrn/usehooks-ts/pull/636
   // Update darkMode if os prefers changes
-  // useIsomorphicLayoutEffect(() => {
-  //   if (isDarkOS !== isDarkMode) {
-  //     setDarkMode(isDarkOS)
-  //   }
-  // }, [isDarkOS])
+  const allowDarkOSChange = useIsMounted();
+  useIsomorphicLayoutEffect(() => {
+    if (isDarkOS !== isDarkMode && allowDarkOSChange()) {
+      setDarkMode(isDarkOS);
+    }
+  }, [isDarkOS]);
 
   return {
     isDarkMode,
