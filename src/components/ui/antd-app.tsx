@@ -1,10 +1,10 @@
 import { App, ConfigProvider, theme } from 'antd';
 import { ThemeSwitcher } from '../shared/theme-switcher';
-import { useDarkMode } from 'usehooks-ts';
 import type { ReactNode } from 'react';
+import { useDarkMode } from '@/hooks/useDarkMode';
 
 export function AntdApp({ children }: { children: ReactNode }) {
-  const { isDarkMode, toggle } = useDarkMode();
+  const { isDarkMode, toggle } = useDarkMode({ localStorageKey: 'dark-mode' });
 
   const { defaultAlgorithm, darkAlgorithm } = theme;
 
