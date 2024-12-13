@@ -4,6 +4,14 @@ import { useTokenStore } from '@/store/token';
 
 export type HttpBodyOrParams<T = Record<string, unknown>> = T & Record<string, unknown>;
 
+enum HTTP_METHOD {
+  GET = 'get',
+  POST = 'post',
+  PUT = 'put',
+  PATCH = 'patch',
+  DELETE = 'delete',
+}
+
 export interface IHttpClient {
   get<T>(url: string, params?: HttpBodyOrParams): Promise<T>;
   post<T>(url: string, body: HttpBodyOrParams): Promise<T>;
@@ -50,36 +58,32 @@ export class HttpClient implements IHttpClient {
     return HttpClient.instance;
   }
 
-  private async request<T>(
-    method: 'get' | 'post' | 'put' | 'patch' | 'delete',
-    url: string,
-    bodyOrParams?: HttpBodyOrParams,
-  ) {
+  private async request<T>(method: HTTP_METHOD, url: string, bodyOrParams?: HttpBodyOrParams) {
     const response = await this.client[method]<T>(
       url,
-      method === 'get' || method === 'delete' ? { params: bodyOrParams } : bodyOrParams,
+      method === HTTP_METHOD.GET || method === HTTP_METHOD.DELETE ? { params: bodyOrParams } : bodyOrParams,
     );
     return response.data;
   }
 
   // Public methods for each HTTP method type
   public get<T>(url: string, params?: HttpBodyOrParams) {
-    return this.request<T>('get', url, params);
+    return this.request<T>(HTTP_METHOD.GET, url, params);
   }
 
   public post<T>(url: string, body: HttpBodyOrParams) {
-    return this.request<T>('post', url, body);
+    return this.request<T>(HTTP_METHOD.POST, url, body);
   }
 
   public put<T>(url: string, body: HttpBodyOrParams) {
-    return this.request<T>('put', url, body);
+    return this.request<T>(HTTP_METHOD.PUT, url, body);
   }
 
   public patch<T>(url: string, body: HttpBodyOrParams) {
-    return this.request<T>('patch', url, body);
+    return this.request<T>(HTTP_METHOD.PATCH, url, body);
   }
 
   public delete<T>(url: string, params?: HttpBodyOrParams) {
-    return this.request<T>('delete', url, params);
+    return this.request<T>(HTTP_METHOD.DELETE, url, params);
   }
 }
